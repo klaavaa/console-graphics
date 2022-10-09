@@ -17,7 +17,7 @@ Example usage:
     float dt = gfx::get_delta();
     gfx::clear();
     
-    //		    pos		size		coloring related flags				character to display (can pass nothing)
+    //		    pos		size		coloring related flags					character to display
     gfx::draw_rect({ 0, 0 }, { 300, 300 }, gfx::COLOR_FLAGS::FG_WHITE | gfx::COLOR_FLAGS::BG_BLACK, gfx::BLOCK_TYPE::LIGHT_SHADE);
     
     gfx::draw_circle({ (int)pos.x, (int)pos.y }, 20, 
