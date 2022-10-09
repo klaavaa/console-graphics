@@ -3,7 +3,7 @@
 NOTE: C++ WINDOWS ONLY
 
 Example usage:
-
+''' c++
   int main()
   {
     gfx::init();  
@@ -27,3 +27,4 @@ Example usage:
     
     return 0;
   }
+'''
