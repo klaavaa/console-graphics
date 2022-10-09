@@ -4,6 +4,9 @@ NOTE: C++ WINDOWS ONLY
 
 Example usage:
 ``` c++
+
+  #include "gfx.hpp"
+
   int main()
   {
   
