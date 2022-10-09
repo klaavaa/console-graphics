@@ -3,6 +3,6 @@
 
 !gfx/
 gfx/*
-!gfx/gfx.h
+!gfx/gfx.hpp
 
 !README.md
