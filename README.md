@@ -33,8 +33,8 @@ int main()
 		     // You can put your own unicode as the string by using the make block method. 
 		     // You must pass it as a wchar_t (L) prefix
 
-	pos += { 2.f * dt, 0.f };
-	// move pos.x by 2 blocks per second
+	pos += { 2.f * dt, 1.f * dt };
+	// move pos.x 2 blocks per second and pos.y 1 block per second
 
 	gfx::refresh();
 
