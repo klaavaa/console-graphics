@@ -7,7 +7,9 @@ Example usage:
   int main()
   {
     gfx::init();  
-    // if you dont specify a size it will automatically make it the largest size possible which is depended on your hardware and software.
+    // If you dont specify a size,
+    // it will automatically make it the largest size possible,
+    // which is depended on your hardware and software.
     
     while (true)
     {
@@ -19,7 +21,8 @@ Example usage:
 		gfx::draw_circle({ (int)pos.x, (int)pos.y }, 20, 
                      gfx::COLOR_FLAGS::FG_GREEN | gfx::COLOR_FLAGS::FG_INTENSITY | gfx::COLOR_FLAGS::BG_BLACK, 
                      gfx::make_block(L'\x25BA')); 
-                     // You can put your own unicode as the string by using the make block method. You must pass it as a wchar_t (L) prefix
+                     // You can put your own unicode as the string by using the make block method. 
+		     // You must pass it as a wchar_t (L) prefix
     
     gfx::refresh();
     
