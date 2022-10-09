@@ -5,12 +5,12 @@ NOTE: C++ WINDOWS ONLY
 Example usage:
 ``` c++
 
-  #include "gfx.hpp"
+#include "gfx.hpp"
 
-  int main()
-  {
-  
-  	// you must call init before calling other gfx functions
+int main()
+{
+
+	// you must call init before calling other gfx functions
 	gfx::init();  
 	// If you dont specify a size,
 	// it will automatically make it the largest size possible,
@@ -41,5 +41,5 @@ Example usage:
 	}
 
 	return 0;
-  }
+}
 ```
