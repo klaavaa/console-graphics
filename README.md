@@ -34,7 +34,7 @@ int main()
 		     // You must pass it as a wchar_t (L) prefix
 
 	pos += { 2.f * dt, 0.f };
-	// move pos by 2 blocks per second
+	// move pos.x by 2 blocks per second
 
 	gfx::refresh();
 
