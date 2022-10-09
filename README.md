@@ -16,7 +16,7 @@ int main()
 	// it will automatically make it the largest size possible,
 	// which is depended on your hardware and software.
 
-	gfx::vec2f pos = {0.f, 0.f};
+	gfx::vec2f pos = {0.f, 25.f};
 
 	while (true)
 	{
