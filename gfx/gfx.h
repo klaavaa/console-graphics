@@ -25,6 +25,10 @@ namespace gfx
 			x(other.x), y(other.y)
 		{}
 
+		vec2<int> get_ints()
+		{
+			return vec2<int>{ (int)x, (int)y };
+		}
 
 		T lenght()
 		{
@@ -252,6 +256,12 @@ namespace gfx
 	
 
 		return { columns, rows };
+	}
+
+	vec2i get_largest_possible_size()
+	{
+		COORD s = GetLargestConsoleWindowSize(cnsl_data.hndl);
+		return { s.X, s.Y };
 	}
 
 	void set_console_size(int width, int height)
