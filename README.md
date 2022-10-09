@@ -17,8 +17,10 @@ Example usage:
     float dt = gfx::get_delta();
     gfx::clear();
     
+    //		    pos		size		coloring related flags				character to display (can pass nothing)
     gfx::draw_rect({ 0, 0 }, { 300, 300 }, gfx::COLOR_FLAGS::FG_WHITE | gfx::COLOR_FLAGS::BG_BLACK, gfx::BLOCK_TYPE::LIGHT_SHADE);
-		gfx::draw_circle({ (int)pos.x, (int)pos.y }, 20, 
+    
+    gfx::draw_circle({ (int)pos.x, (int)pos.y }, 20, 
                      gfx::COLOR_FLAGS::FG_GREEN | gfx::COLOR_FLAGS::FG_INTENSITY | gfx::COLOR_FLAGS::BG_BLACK, 
                      gfx::make_block(L'\x25BA')); 
                      // You can put your own unicode as the string by using the make block method. 
