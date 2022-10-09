@@ -6,6 +6,7 @@ Example usage:
 ``` c++
   int main()
   {
+  
   	// you must call init before calling other gfx functions
 	gfx::init();  
 	// If you dont specify a size,
