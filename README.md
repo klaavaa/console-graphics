@@ -36,6 +36,8 @@ int main()
 		gfx::refresh();
 
 	}
+	// call destroy function to clean up
+	gfx::destroy();
 
 	return 0;
 }
@@ -82,7 +84,9 @@ int main()
 		gfx_refresh();
 
 	}
-
+	// call destroy function to clean up
+	gfx_destroy();
+	
 	return 0;
 }
 ```
