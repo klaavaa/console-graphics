@@ -68,7 +68,7 @@ int main()
 
 		gfx_vec2i rect_size = { 300, 300 };
 	
-		//		    pos		size		coloring related flags			character to display
+		//		pos	size	   coloring related flags	character to display
 		gfx_draw_rect(rect_pos, rect_size, GFX_FG_WHITE | GFX_BG_BLACK, GFX_LIGHT_SHADE);
 
 		gfx_vec2i int_circle_pos = { (int)circle_pos.x, (int)circle_pos.y };
