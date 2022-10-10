@@ -114,17 +114,11 @@ CONSOLE_SCREEN_BUFFER_INFO get_screen_buffer_info()
 }
 
 
-
-
-
 inline gfx_vec2i gfx_get_console_size()
 {
 	check_error();
 
 	CONSOLE_SCREEN_BUFFER_INFO csbi = get_screen_buffer_info();
-
-	//std::cout << csbi.dwSize.X << " " << csbi.dwSize.Y << "\n" << csbi.dwMaximumWindowSize.X << " " << csbi.dwMaximumWindowSize.Y << "\n";
-	//std::cin.get();
 
 	int columns, rows;
 
@@ -207,7 +201,6 @@ inline void gfx_draw_rect(gfx_vec2i pos, gfx_vec2i size, WORD color_flags, WORD 
 inline void gfx_draw_circle(gfx_vec2i pos, float radius, WORD color_flags, WORD block_type)
 {
 
-	//	float minAngle = acosf(1.f - 1.f / radius) * .20f;
 	check_error();
 	for (int i = pos.x - radius; i < pos.x + 2 * radius; i++)
 	{
@@ -223,15 +216,6 @@ inline void gfx_draw_circle(gfx_vec2i pos, float radius, WORD color_flags, WORD 
 		}
 	}
 
-	/*for (float angle = 0; angle < TWO_PI; angle += minAngle)
-	{
-
-		//std::cout << angle << " " << angle * 1000 << std::endl;
-		int x1 = (int)(radius * SIN_COS_TABLE[(int)(angle / 0.001)].x);
-		int y1 = (int)(radius * SIN_COS_TABLE[(int)(angle / 0.001)].y);
-		put({ pos.x + x1, pos.y + y1 }, color);
-	}
-	*/
 }
 inline void gfx_refresh()
 {
