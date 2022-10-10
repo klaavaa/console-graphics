@@ -5,6 +5,30 @@
 
 #include <vector>
 
+#define GFX_BG_BLACK 0
+#define GFX_BG_BLUE 0x0010
+#define GFX_BG_GREEN  0x0020
+#define GFX_BG_RED  0x0040
+#define GFX_BG_PURPLE  GFX_BG_RED	|   GFX_BG_BLUE
+#define GFX_BG_YELLOW  GFX_BG_GREEN |	GFX_BG_RED
+#define GFX_BG_WHITE   GFX_BG_RED	|   GFX_BG_GREEN | GFX_BG_BLUE
+
+#define GFX_FG_BLUE  0x0001
+#define GFX_FG_GREEN  0x0002
+#define GFX_FG_RED  0x0004
+#define GFX_FG_PURPLE  GFX_FG_RED	| GFX_FG_BLUE
+#define GFX_FG_YELLOW  GFX_FG_GREEN | GFX_FG_RED
+#define GFX_FG_WHITE   GFX_FG_RED	| GFX_FG_GREEN | GFX_BG_BLUE
+
+#define GFX_FG_INTENSITY  0x0008
+#define GFX_BG_INTENSITY  0x0080
+
+
+#define GFX_NONE  0
+#define GFX_FULL_BLOCK  L'\x2588'
+#define GFX_LIGHT_SHADE  L'\x2591'
+#define GFX_MEDIUM_SHADE  L'\x2592'
+#define GFX_DARK_SHADE  L'\x2593'
 
 
 namespace gfx
@@ -154,51 +178,14 @@ namespace gfx
 	typedef vec2<float> vec2f;
 
 
-	enum class COLOR_FLAGS : WORD
-	{
-		BG_BLACK = 0,
-		BG_BLUE = 0x0010,
-		BG_GREEN = 0x0020,
-		BG_RED = 0x0040,
-		BG_PURPLE = BG_RED | BG_BLUE,
-		BG_YELLOW = BG_GREEN | BG_RED,
-		BG_WHITE = BG_RED | BG_GREEN | BG_BLUE,
-
-		FG_BLUE = 0x0001,
-		FG_GREEN = 0x0002,
-		FG_RED = 0x0004,
-		FG_PURPLE = FG_RED | FG_BLUE,
-		FG_YELLOW = FG_GREEN | FG_RED,
-		FG_WHITE = FG_RED | FG_GREEN | BG_BLUE,
-
-		FG_INTENSITY = 0x0008,
-		BG_INTENSITY = 0x0080
-	};
-
-	inline constexpr COLOR_FLAGS
-		operator|(COLOR_FLAGS x, COLOR_FLAGS y)
-	{
-		return static_cast<COLOR_FLAGS>(static_cast<WORD>(x) | static_cast<WORD>(y));
-	}
-
-	enum class BLOCK_TYPE : wchar_t
-	{
-		NONE = 0,
-		FULL_BLOCK = L'\x2588',
-		LIGHT_SHADE = L'\x2591',
-		MEDIUM_SHADE = L'\x2592',
-		DARK_SHADE = L'\x2593'
-
-	};
-
 	// You need to call this before any other gfx functions.
 	// You can define the row and column count
 	int init(int width = 0, int height = 0);
 	
 	// Puts a pixel.
-	void put(vec2i p1, COLOR_FLAGS color_flags, BLOCK_TYPE block_type = BLOCK_TYPE::NONE);
-	void draw_rect(vec2i pos, vec2i size, COLOR_FLAGS color_flags, BLOCK_TYPE block_type = BLOCK_TYPE::NONE);
-	void draw_circle(vec2i pos, float radius, COLOR_FLAGS color_flags, BLOCK_TYPE block_type = BLOCK_TYPE::NONE);
+	void put(vec2i p1, WORD color_flags, WORD block_type = GFX_NONE);
+	void draw_rect(vec2i pos, vec2i size, WORD color_flags, WORD block_type = GFX_NONE);
+	void draw_circle(vec2i pos, float radius, WORD color_flags, WORD block_type = GFX_NONE);
 
 
 	// Call refresh when you want to refresh the screen.
@@ -212,9 +199,6 @@ namespace gfx
 	void set_console_size(int width, int height);
 	vec2i get_largest_possible_size();
 
-	// Make custom unicode character to display
-	// Usage: make_block(L'x\code') note: wchar_t
-	BLOCK_TYPE make_block(wchar_t c);
 
 	// get the delta time in seconds
 	inline float get_delta();
@@ -257,7 +241,7 @@ namespace gfx
 		GetConsoleScreenBufferInfo(cnsl_data.hndl, &csbi);
 		return csbi;
 	}
-
+	
 	
 
 
@@ -302,10 +286,6 @@ inline float gfx::get_delta()
 
 	return (float)(cnsl_data.micro_delta_time) * 0.0000001f;
 }
-inline gfx::BLOCK_TYPE gfx::make_block(wchar_t c)
-{
-	return static_cast<BLOCK_TYPE>(c);
-}
 inline gfx::vec2i gfx::get_largest_possible_size()
 {
 	COORD s = GetLargestConsoleWindowSize(cnsl_data.hndl);
@@ -333,7 +313,7 @@ inline void gfx::set_console_size(int width, int height)
 	SetConsoleWindowInfo(cnsl_data.hndl, TRUE, &display_area);
 
 }
-inline void gfx::put(vec2i p1, COLOR_FLAGS color_flags, BLOCK_TYPE block_type)
+inline void gfx::put(vec2i p1, WORD color_flags, WORD block_type)
 {
 	check_error();
 
@@ -343,7 +323,7 @@ inline void gfx::put(vec2i p1, COLOR_FLAGS color_flags, BLOCK_TYPE block_type)
 	cnsl_data.lp_buffer[index].Attributes = (WORD)color_flags;
 	cnsl_data.lp_buffer[index].Char.UnicodeChar = (WCHAR)block_type;
 }
-inline void gfx::draw_rect(vec2i pos, vec2i size, COLOR_FLAGS color_flags, BLOCK_TYPE block_type)
+inline void gfx::draw_rect(vec2i pos, vec2i size, WORD color_flags, WORD block_type)
 {
 	check_error();
 	for (int i = 0; i < size.x; i++)
@@ -355,7 +335,7 @@ inline void gfx::draw_rect(vec2i pos, vec2i size, COLOR_FLAGS color_flags, BLOCK
 	}
 
 }
-inline void gfx::draw_circle(vec2i pos, float radius, COLOR_FLAGS color_flags, BLOCK_TYPE block_type)
+inline void gfx::draw_circle(vec2i pos, float radius, WORD color_flags, WORD block_type)
 {
 
 	//	float minAngle = acosf(1.f - 1.f / radius) * .20f;

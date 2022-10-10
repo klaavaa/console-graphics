@@ -5,4 +5,8 @@
 gfx/*
 !gfx/gfx.hpp
 
+!gfx_c/
+gfx_c/*
+!gfx_c/gfx.h
+
 !README.md
