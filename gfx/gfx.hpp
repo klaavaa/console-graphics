@@ -296,6 +296,9 @@ inline void gfx::set_console_size(int width, int height)
 
 	SetConsoleWindowInfo(cnsl_data.hndl, TRUE, &display_area);
 
+	cnsl_data.pixel_count = width * height;
+	cnsl_data.lp_buffer.resize(cnsl_data.pixel_count);
+
 }
 inline void gfx::put(vec2i p1, WORD color_flags, WORD block_type)
 {

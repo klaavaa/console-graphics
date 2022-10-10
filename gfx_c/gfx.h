@@ -48,6 +48,7 @@ typedef struct
 // You need to call this before any other gfx functions.
 // You can define the row and column count
 int gfx_init(int width, int height);
+void gfx_destroy();
 
 // Puts a pixel.
 void gfx_put(gfx_vec2i p1, WORD color_flags, WORD block_type);
@@ -174,6 +175,11 @@ inline void gfx_set_console_size(int width, int height)
 
 	SetConsoleWindowInfo(cnsl_data.hndl, TRUE, &display_area);
 
+
+	cnsl_data.pixel_count = width * height;
+	
+	cnsl_data.lp_buffer = realloc(cnsl_data.lp_buffer, cnsl_data.pixel_count * sizeof(CHAR_INFO));
+
 }
 inline void gfx_put(gfx_vec2i p1, WORD color_flags, WORD block_type)
 {
@@ -281,6 +287,14 @@ inline int gfx_init(int width, int height)
 
 
 	return 0;
+}
+
+void gfx_destroy()
+{
+	check_error();
+
+	free(cnsl_data.lp_buffer);
+
 }
 
 
