@@ -51,7 +51,7 @@ int main()
 {
 
 	gfx_init(0, 0);
-	// If you dont specify a size,
+	// If you set the size as (0, 0),
 	// it will automatically make it the largest size possible,
 	// which is depended on your hardware and software.
 	
