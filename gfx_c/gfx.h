@@ -35,14 +35,14 @@ typedef struct
 {
 	float x;
 	float y;
-} vec2f;
+} gfx_vec2f;
 
 
 typedef struct
 {
 	int x;
 	int y;
-} vec2i;
+} gfx_vec2i;
 
 
 // You need to call this before any other gfx functions.
@@ -50,9 +50,9 @@ typedef struct
 int gfx_init(int width, int height);
 
 // Puts a pixel.
-void gfx_put(vec2i p1, WORD color_flags, WORD block_type);
-void gfx_draw_rect(vec2i pos, vec2i size, WORD color_flags, WORD block_type);
-void gfx_draw_circle(vec2i pos, float radius, WORD color_flags, WORD block_type);
+void gfx_put(gfx_vec2i p1, WORD color_flags, WORD block_type);
+void gfx_draw_rect(gfx_vec2i pos, gfx_vec2i size, WORD color_flags, WORD block_type);
+void gfx_draw_circle(gfx_vec2i pos, float radius, WORD color_flags, WORD block_type);
 
 
 // Call refresh when you want to refresh the screen.
@@ -64,13 +64,13 @@ void gfx_clear();
 // Sets the console size in rows and columns.
 // See get_largest_possible_size() function for largest size.
 void  gfx_set_console_size(int width, int height);
-vec2i gfx_get_largest_possible_size();
+gfx_vec2i gfx_get_largest_possible_size();
 
 // get the delta time in seconds
 inline float gfx_get_delta();
 
 // get the amount of rows and columns
-vec2i gfx_get_console_size();
+gfx_vec2i gfx_get_console_size();
 
 
 HANDLE get_handle()
@@ -117,7 +117,7 @@ CONSOLE_SCREEN_BUFFER_INFO get_screen_buffer_info()
 
 
 
-inline vec2i gfx_get_console_size()
+inline gfx_vec2i gfx_get_console_size()
 {
 	check_error();
 
@@ -131,9 +131,7 @@ inline vec2i gfx_get_console_size()
 	columns = csbi.srWindow.Right - csbi.srWindow.Left;
 	rows = csbi.srWindow.Bottom - csbi.srWindow.Top;
 
-	vec2i r;
-	r.x = columns;
-	r.y = rows;
+	gfx_vec2i r = {columns, rows};
 
 	return r;
 }
@@ -150,12 +148,11 @@ inline float gfx_get_delta()
 	return (float)(cnsl_data.micro_delta_time) * 0.0000001f;
 }
 
-inline vec2i gfx_get_largest_possible_size()
+inline gfx_vec2i gfx_get_largest_possible_size()
 {
 	COORD s = GetLargestConsoleWindowSize(cnsl_data.hndl);
-	vec2i r;
-	r.x = s.X;
-	r.y = s.Y;
+	gfx_vec2i r = {s.X, s.Y};
+
 	return r;
 }
 inline void gfx_set_console_size(int width, int height)
@@ -184,7 +181,7 @@ inline void gfx_set_console_size(int width, int height)
 	SetConsoleWindowInfo(cnsl_data.hndl, TRUE, &display_area);
 
 }
-inline void gfx_put(vec2i p1, WORD color_flags, WORD block_type)
+inline void gfx_put(gfx_vec2i p1, WORD color_flags, WORD block_type)
 {
 	check_error();
 
@@ -194,22 +191,20 @@ inline void gfx_put(vec2i p1, WORD color_flags, WORD block_type)
 	cnsl_data.lp_buffer[index].Attributes = (WORD)color_flags;
 	cnsl_data.lp_buffer[index].Char.UnicodeChar = (WCHAR)block_type;
 }
-inline void gfx_draw_rect(vec2i pos, vec2i size, WORD color_flags, WORD block_type)
+inline void gfx_draw_rect(gfx_vec2i pos, gfx_vec2i size, WORD color_flags, WORD block_type)
 {
 	check_error();
 	for (int i = 0; i < size.x; i++)
 	{
 		for (int j = 0; j < size.y; j++)
 		{
-			vec2i p;
-			p.x = pos.x + i;
-			p.y = pos.y + j;
+			gfx_vec2i p = {pos.x + i, pos.y + j};
 			gfx_put(p, color_flags, block_type);
 		}
 	}
 
 }
-inline void gfx_draw_circle(vec2i pos, float radius, WORD color_flags, WORD block_type)
+inline void gfx_draw_circle(gfx_vec2i pos, float radius, WORD color_flags, WORD block_type)
 {
 
 	//	float minAngle = acosf(1.f - 1.f / radius) * .20f;
@@ -222,9 +217,7 @@ inline void gfx_draw_circle(vec2i pos, float radius, WORD color_flags, WORD bloc
 			int dy = pos.y - j;
 			if (dx * dx + dy * dy < radius * radius)
 			{
-				vec2i p;
-				p.x = i;
-				p.y = j;
+				gfx_vec2i p = {i, j};
 				gfx_put(p, color_flags, block_type);
 			}
 		}
@@ -243,7 +236,7 @@ inline void gfx_draw_circle(vec2i pos, float radius, WORD color_flags, WORD bloc
 inline void gfx_refresh()
 {
 	check_error();
-	vec2i size = gfx_get_console_size();
+	gfx_vec2i size = gfx_get_console_size();
 	SMALL_RECT sr = { 0, 0, size.x, size.y };
 	WriteConsoleOutputW(cnsl_data.hndl, &cnsl_data.lp_buffer[0], cnsl_data.dw_buf_size, cnsl_data.dw_buf_coord, &sr);
 
