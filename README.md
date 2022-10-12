@@ -17,7 +17,7 @@ int main()
 
 	gfx::vec2f pos = { 0.f, 25.f };
 
-	while (true)
+	while (1)
 	{
 		float dt = gfx::get_delta();
 		gfx::clear();
@@ -60,7 +60,7 @@ int main()
 	
 	gfx_vec2f circle_pos = { 0.f, 15.f };
 
-	while (true)
+	while (1)
 	{
 		float dt = gfx_get_delta();
 		gfx_clear();
